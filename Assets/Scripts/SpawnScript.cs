@@ -28,7 +28,7 @@ public class SpawnScript : MonoBehaviour
             Instantiate(Food, randVector, Quaternion.identity);
         }
 
-        for (int i = 0; i < 6; i++)     // желтые
+        for (int i = 0; i < 20; i++)     // желтые
         {
             randVector.Set(Random.Range(-99.0f, 99.0f), 0, Random.Range(-99.0f, 99.0f));
             Instantiate(Enemy, randVector, Quaternion.identity);

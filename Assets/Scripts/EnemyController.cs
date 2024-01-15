@@ -115,7 +115,7 @@ public class EnemyController : MonoBehaviour
             else 
             {
                 Quaternion targetrotation = Quaternion.LookRotation(-player.position - transform.position);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetrotation, Time.deltaTime * lookspeed * 0.1f);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetrotation, Time.deltaTime * lookspeed * 0.8f);
                 transform.position = Vector3.MoveTowards(transform.position, -player.position, speed * Time.fixedDeltaTime);
                 //Quaternion targetrotation = Quaternion.LookRotation(closest.transform.position - transform.position);
                 //transform.rotation = Quaternion.Slerp(transform.rotation, targetrotation, Time.deltaTime * lookspeed);
@@ -124,7 +124,7 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-                mass *= 1.0002f;
+                mass *= 1.00035f;
                 //Quaternion targetrotation = Quaternion.LookRotation(closest.transform.position - transform.position);
                 //transform.rotation = Quaternion.Slerp(transform.rotation, targetrotation, Time.deltaTime * lookspeed);
                 //transform.position = Vector3.MoveTowards(transform.position, closest.transform.position, speed * Time.fixedDeltaTime);
