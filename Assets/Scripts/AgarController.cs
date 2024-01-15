@@ -27,7 +27,7 @@ public class AgarController : MonoBehaviour
     private bool touch;
     public GameObject deathScreen;
 
-    public float UpdateIntervalSec = 1f / 3f; // 3 раза в секунду
+    public float UpdateIntervalSec = 3f / 3f; // 3 (cейчас 1 раз) раза в секунду
     public float ZoomSpeed = 1f; // скорость зума камеры
 
     public float buffTimer; // время действия бафа
@@ -220,107 +220,117 @@ void OnTriggerEnter(Collider col)  // поедание челов и еды
 
     private void UpdateCameraZoom()  // зум камеры
     {
-
-        if (mass < 400)
-
-            cam.orthographicSize = 5f;
-
-        else if (mass >= 400 && mass < 1100)
-
+        if (cam.orthographicSize / vecScale.x < 1.75f)
         {
-            if (_zoomIsSmall)
-            {
-                StopAllCoroutines();
-
-                StartCoroutine(nameof(CameraZoom), 10f);
-            }
-            else
-            {
-                StopAllCoroutines();
-
-                StartCoroutine(nameof(CameraZoom), 5f);
-            }
+            camSize += 5f;
+            StartCoroutine(nameof(CameraZoom), camSize);
+        }else if (cam.orthographicSize / vecScale.x > 5f)
+        {
+            camSize -= 5f;
+            StartCoroutine(nameof(CameraZoom), camSize);
         }
 
-        else if (mass >= 1100 && mass < 2200)
-        {
-            if (_zoomIsSmall)
-            {
-                StopAllCoroutines();
 
-                StartCoroutine(nameof(CameraZoom), 16f);
-            }
-            else
-            {
-                StopAllCoroutines();
+        //if (mass < 400)
 
-                StartCoroutine(nameof(CameraZoom), 10f);
-            }
-        }
+            //    cam.orthographicSize = 5f;
 
-        else if (mass >= 2200 & mass < 3500)
-        {
-            if (_zoomIsSmall)
-            {
-                StopAllCoroutines();
+            //else if (mass >= 400 && mass < 1100)
 
-                StartCoroutine(nameof(CameraZoom), 30f);
-            }
-            else
-            {
-                StopAllCoroutines();
+            //{
+            //    if (_zoomIsSmall)
+            //    {
+            //        StopAllCoroutines();
 
-                StartCoroutine(nameof(CameraZoom), 16f);
-            }
-        }
+            //        StartCoroutine(nameof(CameraZoom), 10f);
+            //    }
+            //    else
+            //    {
+            //        StopAllCoroutines();
 
-        else if (mass >= 3500 && mass < 5000)
-        {
-            if (_zoomIsSmall)
-            {
-                StopAllCoroutines();
+            //        StartCoroutine(nameof(CameraZoom), 5f);
+            //    }
+            //}
 
-                StartCoroutine(nameof(CameraZoom), 50f);
-            }
-            else
-            {
-                StopAllCoroutines();
+            //else if (mass >= 1100 && mass < 2200)
+            //{
+            //    if (_zoomIsSmall)
+            //    {
+            //        StopAllCoroutines();
 
-                StartCoroutine(nameof(CameraZoom), 30f);
-            }
-        }
+            //        StartCoroutine(nameof(CameraZoom), 16f);
+            //    }
+            //    else
+            //    {
+            //        StopAllCoroutines();
 
-        else if (mass >= 5000 && mass < 7000)
-        {
-            if (_zoomIsSmall)
-            {
-                StopAllCoroutines();
+            //        StartCoroutine(nameof(CameraZoom), 10f);
+            //    }
+            //}
 
-                StartCoroutine(nameof(CameraZoom), 70f);
-            }
-            else
-            {
-                StopAllCoroutines();
+            //else if (mass >= 2200 & mass < 3500)
+            //{
+            //    if (_zoomIsSmall)
+            //    {
+            //        StopAllCoroutines();
 
-                StartCoroutine(nameof(CameraZoom), 50f);
-            }
-        }
-        else if (mass >=7000)
-        {
-            if (_zoomIsSmall)
-            {
-                StopAllCoroutines();
+            //        StartCoroutine(nameof(CameraZoom), 30f);
+            //    }
+            //    else
+            //    {
+            //        StopAllCoroutines();
 
-                StartCoroutine(nameof(CameraZoom), 90f);
-            }
-            else
-            {
-                StopAllCoroutines();
+            //        StartCoroutine(nameof(CameraZoom), 16f);
+            //    }
+            //}
 
-                StartCoroutine(nameof(CameraZoom), 70f);
-            }
+            //else if (mass >= 3500 && mass < 5000)
+            //{
+            //    if (_zoomIsSmall)
+            //    {
+            //        StopAllCoroutines();
 
-        }
+            //        StartCoroutine(nameof(CameraZoom), 50f);
+            //    }
+            //    else
+            //    {
+            //        StopAllCoroutines();
+
+            //        StartCoroutine(nameof(CameraZoom), 30f);
+            //    }
+            //}
+
+            //else if (mass >= 5000 && mass < 7000)
+            //{
+            //    if (_zoomIsSmall)
+            //    {
+            //        StopAllCoroutines();
+
+            //        StartCoroutine(nameof(CameraZoom), 70f);
+            //    }
+            //    else
+            //    {
+            //        StopAllCoroutines();
+
+            //        StartCoroutine(nameof(CameraZoom), 50f);
+            //    }
+            //}
+            //else if (mass >=7000)
+            //{
+            //    if (_zoomIsSmall)
+            //    {
+            //        StopAllCoroutines();
+
+            //        StartCoroutine(nameof(CameraZoom), 90f);
+            //    }
+            //    else
+            //    {
+            //        StopAllCoroutines();
+
+            //        StartCoroutine(nameof(CameraZoom), 70f);
+            //    }
+
+            //}
     }
 
         
@@ -338,6 +348,12 @@ void OnTriggerEnter(Collider col)  // поедание челов и еды
         }
 
         cam.orthographicSize = targetZoom;
+    }
+
+
+    private void CamScale(float size)
+    {
+
     }
 
     //public void speedUp()  
