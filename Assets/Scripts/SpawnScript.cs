@@ -12,13 +12,13 @@ public class SpawnScript : MonoBehaviour
     public GameObject Buff;
     private Vector3 randVector;
 
-    bool left;  // стороны спавна красных жнеми. True - слева, false - справа
+    bool left;  // стороны спавна красных энеми. True - слева, false - справа
 
 
     private void Start()
     {
-        StartCoroutine("DoMessage");   // старт скрипта по спавну красных
-        left = true;
+        //StartCoroutine("DoMessage");   // старт скрипта по спавну красных
+        //left = true;
     }
     void Awake()
     {
