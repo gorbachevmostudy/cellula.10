@@ -30,6 +30,9 @@ public class AgarController : MonoBehaviour
     public float UpdateIntervalSec = 1f / 3f; // 3 раза в секунду
     public float ZoomSpeed = 1f; // скорость зума камеры
 
+    public float buffTimer; // время действия бафа
+    public bool buffActive;    // булева - активность бафа
+
     private float _time;
     private bool _zoomIsSmall = true;
     private Camera _camera;
@@ -54,9 +57,9 @@ public class AgarController : MonoBehaviour
         vecScale.Set(1, 1, 1);
         camSize = 5f;
         massCoin = 3f;
-
+        buffActive = false;
+        buffTimer = 10f;
         StartCoroutine("DoMessage");
-        
 
     }
 
@@ -97,7 +100,10 @@ public class AgarController : MonoBehaviour
         }
         if (touch == true)   // ускорение
         {
-            mass *= 0.999f;
+            if (buffActive == false)
+            {
+                mass *= 0.999f;
+            }
         }
 
         if (mass < 0)
@@ -154,6 +160,15 @@ void OnTriggerEnter(Collider col)  // поедание челов и еды
             col.gameObject.transform.position = randVec;
             
             //camSize += 0.002f * massCoin;   // Отдаление камеры
+        }
+
+        if (col.gameObject.tag == "Buff")
+        {
+
+            UseBuff();
+            randVec.Set(Random.Range(-99.0f, 99.0f), 0, Random.Range(-99.0f, 99.0f));
+            col.gameObject.transform.position = randVec;
+
         }
     }
     private void savePlayer()
@@ -339,8 +354,23 @@ void OnTriggerEnter(Collider col)  // поедание челов и еды
     {
         if (!deathScreen.activeSelf)
         {
-            Destroy(sphere);
+            //Destroy(sphere);
             deathScreen.SetActive(true);
+            Time.timeScale = 0;
         }
+    }
+
+    private void UseBuff()
+    {
+        if (buffActive == false)
+        {
+            buffActive = true;
+            Invoke("SetBuffFalse", buffTimer);
+        }
+    }
+
+    private void SetBuffFalse()
+    {
+        buffActive = false;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemyController : MonoBehaviour
 {
@@ -43,45 +44,45 @@ public class EnemyController : MonoBehaviour
 
     }
 
-    GameObject FindClosestFood()    // поиск ближайшей еды
-    {
+    //GameObject FindClosestFood()    // поиск ближайшей еды
+    //{
 
-        float distance = Mathf.Infinity;
-        Vector3 position = transform.position;
-        foreach (GameObject go in food)
-        {
+    //    float distance = Mathf.Infinity;
+    //    Vector3 position = transform.position;
+    //    foreach (GameObject go in food)
+    //    {
 
-            Vector3 diff = go.transform.position - position;
-            float curDistance = diff.sqrMagnitude;
+    //        Vector3 diff = go.transform.position - position;
+    //        float curDistance = diff.sqrMagnitude;
 
-            if (curDistance < distance)
-            {
-                closest = go;
-                distance = curDistance;
-            } 
-        }
-        return closest;
-    }
+    //        if (curDistance < distance)
+    //        {
+    //            closest = go;
+    //            distance = curDistance;
+    //        } 
+    //    }
+    //    return closest;
+    //}
 
-    GameObject FindClosestEnemyBoss()   // поиск ближайшего красного энеми
-    {
+    //GameObject FindClosestEnemyBoss()   // поиск ближайшего красного энеми
+    //{
 
-        float distance = Mathf.Infinity;
-        Vector3 position = transform.position;
-        foreach (GameObject go in food)
-        {
+    //    float distance = Mathf.Infinity;
+    //    Vector3 position = transform.position;
+    //    foreach (GameObject go in food)
+    //    {
 
-            Vector3 diff = go.transform.position - position;
-            float curDistance = diff.sqrMagnitude;
+    //        Vector3 diff = go.transform.position - position;
+    //        float curDistance = diff.sqrMagnitude;
 
-            if (curDistance < distance)
-            {
-                closestEnemyBoss = go;
-                distance = curDistance;
-            }
-        }
-        return closestEnemyBoss;
-    }
+    //        if (curDistance < distance)
+    //        {
+    //            closestEnemyBoss = go;
+    //            distance = curDistance;
+    //        }
+    //    }
+    //    return closestEnemyBoss;
+    //}
 
     void FixedUpdate()
     {
@@ -92,18 +93,18 @@ public class EnemyController : MonoBehaviour
         foodTrans = GameObject.FindGameObjectWithTag("Food").GetComponent<Transform>();
 
         float distToPlayer = Vector3.Distance(transform.position, player.position);
-        nearest = FindClosestFood().name;
-        nearestEnemy = FindClosestEnemyBoss().name;
-        float distToEnemyBoss = Vector3.Distance(transform.position, closestEnemyBoss.transform.position);
+        //nearest = FindClosestFood().name;
+        //nearestEnemy = FindClosestEnemyBoss().name;
+        //float distToEnemyBoss = Vector3.Distance(transform.position, closestEnemyBoss.transform.position);
         //enemyBossMass = GameObject.FindGameObjectWithTag("EnemyBoss").GetComponent<EnemyBossController>().mass;
 
         // Перепис в связи с новой логикой энеми-боссов
-        try   // попытка найти массу красного энеми, чтобы не выпадала ошибка
-        {
-            enemyBossMass = closestEnemyBoss.GetComponent<EnemyBossController>().mass;
-        }
-        catch { }
-        if (distToPlayer < 40f && (distToEnemyBoss > 10f | mass > enemyBossMass))
+        //try   // попытка найти массу красного энеми, чтобы не выпадала ошибка
+        //{
+        //    enemyBossMass = closestEnemyBoss.GetComponent<EnemyBossController>().mass;
+        //}
+        //catch { }
+        if (distToPlayer < 40f)
         {
             if (mass > playerMass)
             {
@@ -113,21 +114,25 @@ public class EnemyController : MonoBehaviour
             }
             else 
             {
-                Quaternion targetrotation = Quaternion.LookRotation(closest.transform.position - transform.position);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetrotation, Time.deltaTime * lookspeed);
-                transform.position = Vector3.MoveTowards(transform.position, closest.transform.position, speed * Time.fixedDeltaTime);
+                Quaternion targetrotation = Quaternion.LookRotation(-player.position - transform.position);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetrotation, Time.deltaTime * lookspeed * 0.1f);
+                transform.position = Vector3.MoveTowards(transform.position, -player.position, speed * Time.fixedDeltaTime);
+                //Quaternion targetrotation = Quaternion.LookRotation(closest.transform.position - transform.position);
+                //transform.rotation = Quaternion.Slerp(transform.rotation, targetrotation, Time.deltaTime * lookspeed);
+                //transform.position = Vector3.MoveTowards(transform.position, closest.transform.position, speed * Time.fixedDeltaTime);
             }
         }
         else
         {
-                Quaternion targetrotation = Quaternion.LookRotation(closest.transform.position - transform.position);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetrotation, Time.deltaTime * lookspeed);
-                transform.position = Vector3.MoveTowards(transform.position, closest.transform.position, speed * Time.fixedDeltaTime);
+                mass *= 1.0002f;
+                //Quaternion targetrotation = Quaternion.LookRotation(closest.transform.position - transform.position);
+                //transform.rotation = Quaternion.Slerp(transform.rotation, targetrotation, Time.deltaTime * lookspeed);
+                //transform.position = Vector3.MoveTowards(transform.position, closest.transform.position, speed * Time.fixedDeltaTime);
         }
 
         vecScale.Set((mass / 200f + 0.95f), 1, (mass / 200f + 0.95f));
         transform.localScale = vecScale;
-        mass -= 0.000002f * mass;
+        //mass -= 0.00002f * mass;
 
     }
 
@@ -149,8 +154,11 @@ public class EnemyController : MonoBehaviour
             {
                 if (!deathScreen.activeSelf)
                 {
-                    Destroy(col.gameObject);
+                    //Destroy(col.gameObject);
                     deathScreen.SetActive(true);
+                 
+                    Time.timeScale = 0;
+                    //Debug.Break();
                 }
             }
         }

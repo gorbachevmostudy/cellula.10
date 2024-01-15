@@ -8,6 +8,10 @@ public class Scenes : MonoBehaviour
     public void ChangeScenes(int numberScenes)
     {
         SceneManager.LoadScene(numberScenes);
+        if (Time.timeScale == 0)
+        {
+            Time.timeScale = 1;
+        }
     }
 
     public void Exit()

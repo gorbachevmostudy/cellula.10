@@ -36,7 +36,7 @@ public class EnemyBossController : MonoBehaviour
         mass = playerMass * 1.2f;
         lookspeed = 3f;
         vecScale.Set(1, 1, 1);
-
+       
     }
 
     void FixedUpdate()
