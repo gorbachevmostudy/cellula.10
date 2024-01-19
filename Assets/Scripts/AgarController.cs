@@ -26,6 +26,7 @@ public class AgarController : MonoBehaviour
     float massEnemyBoss;
     private bool touch;
     public GameObject deathScreen;
+    private float spawnRange;
 
     public float UpdateIntervalSec = 3f / 3f; // 3 (cейчас 1 раз) раза в секунду
     public float ZoomSpeed = 1f; // скорость зума камеры
@@ -59,7 +60,8 @@ public class AgarController : MonoBehaviour
         massCoin = 3f;
         buffActive = false;
         buffTimer = 10f;
-        StartCoroutine("DoMessage");
+        spawnRange = 99f;
+        //StartCoroutine("DoMessage");
 
     }
 
@@ -118,7 +120,7 @@ void OnTriggerEnter(Collider col)  // поедание челов и еды
         if (col.gameObject.tag == "Food")
         {
             mass += massCoin;
-            randVec.Set(Random.Range(-99.0f, 99.0f), 0, Random.Range(-99.0f, 99.0f));
+            randVec.Set(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
             col.gameObject.transform.position = randVec;
 
             //camSize += 0.002f * massCoin;   // Отдаление камеры
@@ -130,7 +132,7 @@ void OnTriggerEnter(Collider col)  // поедание челов и еды
             if (mass >= massEnemy)
             {
                 mass += massEnemy * 0.3f;
-                randVec.Set(Random.Range(-99.0f, 99.0f), 0, Random.Range(-99.0f, 99.0f));
+                randVec.Set(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
                 col.gameObject.transform.position = randVec;
             }
         }
@@ -156,7 +158,7 @@ void OnTriggerEnter(Collider col)  // поедание челов и еды
             coinsCount += 1;
             coins.text = "Money: " + coinsCount.ToString();
             savePlayer();
-            randVec.Set(Random.Range(-99.0f, 99.0f), 0, Random.Range(-99.0f, 99.0f));
+            randVec.Set(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
             col.gameObject.transform.position = randVec;
             
             //camSize += 0.002f * massCoin;   // Отдаление камеры
@@ -166,7 +168,7 @@ void OnTriggerEnter(Collider col)  // поедание челов и еды
         {
 
             UseBuff();
-            randVec.Set(Random.Range(-99.0f, 99.0f), 0, Random.Range(-99.0f, 99.0f));
+            randVec.Set(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
             col.gameObject.transform.position = randVec;
 
         }
@@ -176,34 +178,34 @@ void OnTriggerEnter(Collider col)  // поедание челов и еды
         PlayerPrefs.SetInt("coinsFinal", coinsCount);
     }
 
-    private IEnumerator DoMessage()   // красная зона таймер
-    {
-        for (; ; )
-        {
-            RedZone();
-            yield return new WaitForSeconds(5f);
-        }
-    }
+    //private IEnumerator DoMessage()   // КРАСНАЯ ЗОНА ТАЙМЕР
+    //{
+    //    for (; ; )
+    //    {
+    //        RedZone();
+    //        yield return new WaitForSeconds(5f);
+    //    }
+    //}
 
-    void RedZone()  // красная зона
-    {
+    //void RedZone()  // красная зона
+    //{
 
-        // "Красная зона"
+    //    // "Красная зона"
 
-        if (transform.position.x < -99.0f ^ transform.position.x > 99.0f)
-        {
+    //    if (transform.position.x < -99.0f ^ transform.position.x > 99.0f)
+    //    {
 
-            mass *= 0.8f;
+    //        mass *= 0.8f;
             
-        }
+    //    }
 
-        if (transform.position.z < -99.0f ^ transform.position.z > 99.0f)
-        {
+    //    if (transform.position.z < -99.0f ^ transform.position.z > 99.0f)
+    //    {
 
-            mass *= 0.8f;
+    //        mass *= 0.8f;
 
-        }
-    }
+    //    }
+    //}
 
 
     private bool IntervalTicked()  // таймер камеры
@@ -230,107 +232,6 @@ void OnTriggerEnter(Collider col)  // поедание челов и еды
             StartCoroutine(nameof(CameraZoom), camSize);
         }
 
-
-        //if (mass < 400)
-
-            //    cam.orthographicSize = 5f;
-
-            //else if (mass >= 400 && mass < 1100)
-
-            //{
-            //    if (_zoomIsSmall)
-            //    {
-            //        StopAllCoroutines();
-
-            //        StartCoroutine(nameof(CameraZoom), 10f);
-            //    }
-            //    else
-            //    {
-            //        StopAllCoroutines();
-
-            //        StartCoroutine(nameof(CameraZoom), 5f);
-            //    }
-            //}
-
-            //else if (mass >= 1100 && mass < 2200)
-            //{
-            //    if (_zoomIsSmall)
-            //    {
-            //        StopAllCoroutines();
-
-            //        StartCoroutine(nameof(CameraZoom), 16f);
-            //    }
-            //    else
-            //    {
-            //        StopAllCoroutines();
-
-            //        StartCoroutine(nameof(CameraZoom), 10f);
-            //    }
-            //}
-
-            //else if (mass >= 2200 & mass < 3500)
-            //{
-            //    if (_zoomIsSmall)
-            //    {
-            //        StopAllCoroutines();
-
-            //        StartCoroutine(nameof(CameraZoom), 30f);
-            //    }
-            //    else
-            //    {
-            //        StopAllCoroutines();
-
-            //        StartCoroutine(nameof(CameraZoom), 16f);
-            //    }
-            //}
-
-            //else if (mass >= 3500 && mass < 5000)
-            //{
-            //    if (_zoomIsSmall)
-            //    {
-            //        StopAllCoroutines();
-
-            //        StartCoroutine(nameof(CameraZoom), 50f);
-            //    }
-            //    else
-            //    {
-            //        StopAllCoroutines();
-
-            //        StartCoroutine(nameof(CameraZoom), 30f);
-            //    }
-            //}
-
-            //else if (mass >= 5000 && mass < 7000)
-            //{
-            //    if (_zoomIsSmall)
-            //    {
-            //        StopAllCoroutines();
-
-            //        StartCoroutine(nameof(CameraZoom), 70f);
-            //    }
-            //    else
-            //    {
-            //        StopAllCoroutines();
-
-            //        StartCoroutine(nameof(CameraZoom), 50f);
-            //    }
-            //}
-            //else if (mass >=7000)
-            //{
-            //    if (_zoomIsSmall)
-            //    {
-            //        StopAllCoroutines();
-
-            //        StartCoroutine(nameof(CameraZoom), 90f);
-            //    }
-            //    else
-            //    {
-            //        StopAllCoroutines();
-
-            //        StartCoroutine(nameof(CameraZoom), 70f);
-            //    }
-
-            //}
     }
 
         
@@ -347,6 +248,7 @@ void OnTriggerEnter(Collider col)  // поедание челов и еды
             yield return null;
         }
 
+        spawnRange += 50f;
         cam.orthographicSize = targetZoom;
     }
 

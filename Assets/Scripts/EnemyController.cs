@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class EnemyController : MonoBehaviour
 {
+    [SerializeField] private float cam;
     public GameObject sphere;
     private Transform player;
     //public Transform enemyBoss;
@@ -20,11 +21,12 @@ public class EnemyController : MonoBehaviour
     private Vector3 randVec;
     private Vector3 vecScale;
     public GameObject deathScreen;
+    
 
-    GameObject[] food;
-    GameObject closest;
-    GameObject[] enemyBoss;
-    GameObject closestEnemyBoss;
+    //GameObject[] food;
+    //GameObject closest;
+    //GameObject[] enemyBoss;
+    //GameObject closestEnemyBoss;
 
     public string nearest;
     public string nearestEnemy;
@@ -32,10 +34,10 @@ public class EnemyController : MonoBehaviour
 
     void Start()
     {
-        food = new GameObject[10];
-        food = GameObject.FindGameObjectsWithTag("Food");
-        enemyBoss = new GameObject[5];
-        enemyBoss = GameObject.FindGameObjectsWithTag("EnemyBoss");
+        //food = new GameObject[10];
+        //food = GameObject.FindGameObjectsWithTag("Food");
+        //enemyBoss = new GameObject[5];
+        //enemyBoss = GameObject.FindGameObjectsWithTag("EnemyBoss");
         speed = 5f;
         massCoin = 3f;
         mass = 50f;
@@ -92,6 +94,7 @@ public class EnemyController : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         foodTrans = GameObject.FindGameObjectWithTag("Food").GetComponent<Transform>();
 
+        cam = GameObject.FindGameObjectWithTag("Player").GetComponent<AgarController>().camSize;
         float distToPlayer = Vector3.Distance(transform.position, player.position);
         //nearest = FindClosestFood().name;
         //nearestEnemy = FindClosestEnemyBoss().name;
@@ -104,7 +107,7 @@ public class EnemyController : MonoBehaviour
         //    enemyBossMass = closestEnemyBoss.GetComponent<EnemyBossController>().mass;
         //}
         //catch { }
-        if (distToPlayer < 40f)
+        if (distToPlayer < cam * 8f)
         {
             if (mass > playerMass)
             {
@@ -124,15 +127,25 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
+            if (mass < playerMass * 0.7f) 
+            {
+                
+                mass *= 1.0005f;
+
+            } else if ((mass >= playerMass * 0.7f) && (mass < playerMass * 1.2f))
+            {
+                
                 mass *= 1.00035f;
-                //Quaternion targetrotation = Quaternion.LookRotation(closest.transform.position - transform.position);
-                //transform.rotation = Quaternion.Slerp(transform.rotation, targetrotation, Time.deltaTime * lookspeed);
-                //transform.position = Vector3.MoveTowards(transform.position, closest.transform.position, speed * Time.fixedDeltaTime);
+            
+            } else if (mass >= playerMass * 1.2f)
+            {
+                mass *= 1.0002f;
+            }
+
         }
 
         vecScale.Set((mass / 200f + 0.95f), 1, (mass / 200f + 0.95f));
         transform.localScale = vecScale;
-        //mass -= 0.00002f * mass;
 
     }
 

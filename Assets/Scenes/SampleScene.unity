@@ -1525,10 +1525,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myObject: {fileID: 2073840292}
-  leftLimit: -210
-  rightLimit: 210
-  bottomLimit: -210
-  topLimit: 210
+  leftLimit: -21000
+  rightLimit: 21000
+  bottomLimit: -21000
+  topLimit: 21000
 --- !u!1 &1248803016
 GameObject:
   m_ObjectHideFlags: 0
@@ -1991,6 +1991,8 @@ MonoBehaviour:
   EnemyBoss: {fileID: 4499780727343889311, guid: bb4cf908c772d1241aaab19ac565317f, type: 3}
   Coin: {fileID: 4523734576165063499, guid: 23249fe1a5e8d8148bd3ee6e1ddd27dd, type: 3}
   Buff: {fileID: 1823907134147264661, guid: 44669a948ec20a14097e360894677e7b, type: 3}
+  cam: {fileID: 1246687851}
+  spawnRange: 0
 --- !u!1 &1541317272
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,7 +11,9 @@ public class SpawnScript : MonoBehaviour
     public GameObject Coin;
     public GameObject Buff;
     private Vector3 randVector;
-
+    private Transform player;
+    public Camera cam;
+    public float spawnRange;
     bool left;  // стороны спавна красных энеми. True - слева, false - справа
 
 
@@ -19,30 +21,34 @@ public class SpawnScript : MonoBehaviour
     {
         //StartCoroutine("DoMessage");   // старт скрипта по спавну красных
         //left = true;
+ 
+        
+
     }
     void Awake()
     {
+        spawnRange = 99;
         for (int i = 0; i < 1500; i++)  // еда
         {
-            randVector.Set(Random.Range(-99.0f, 99.0f), 0, Random.Range(-99.0f, 99.0f));
+            randVector.Set(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
             Instantiate(Food, randVector, Quaternion.identity);
         }
 
-        for (int i = 0; i < 20; i++)     // желтые
+        for (int i = 0; i < 300; i++)     // желтые
         {
-            randVector.Set(Random.Range(-99.0f, 99.0f), 0, Random.Range(-99.0f, 99.0f));
+            randVector.Set(Random.Range(-500, 500), 0, Random.Range(-2000, 2000));
             Instantiate(Enemy, randVector, Quaternion.identity);
         }
 
         for (int i = 0; i < 100; i++)     // монеты
         {
-            randVector.Set(Random.Range(-99.0f, 99.0f), 0, Random.Range(-99.0f, 99.0f));
+            randVector.Set(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
             Instantiate(Coin, randVector, Quaternion.identity);
         }
 
-        for (int i = 0; i < 100; i++)     // ускорение
+        for (int i = 0; i < 40; i++)     // ускорение
         {
-            randVector.Set(Random.Range(-99.0f, 99.0f), 0, Random.Range(-99.0f, 99.0f));
+            randVector.Set(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
             Instantiate(Buff, randVector, Quaternion.identity);
         }
 
@@ -73,4 +79,17 @@ public class SpawnScript : MonoBehaviour
     //    }
     //}
 
+    //private void FixedUpdate()
+    //{
+    //    player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+
+    //    if (cam.orthographicSize / player.localScale.x < 1.75f)
+    //    {
+    //        spawnRange += 20f;  
+    //    }
+    //    else if (cam.orthographicSize / player.localScale.x > 5f)
+    //    {
+    //        spawnRange -= 20f;
+    //    }
+    //}
 }
