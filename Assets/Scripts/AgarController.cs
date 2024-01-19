@@ -57,7 +57,7 @@ public class AgarController : MonoBehaviour
         //lookspeed = 10f;
         vecScale.Set(1, 1, 1);
         camSize = 5f;
-        massCoin = 3f;
+        
         buffActive = false;
         buffTimer = 10f;
         spawnRange = 99f;
@@ -68,7 +68,13 @@ public class AgarController : MonoBehaviour
     void FixedUpdate()
     {
 
-             //  Œƒ ƒÀﬂ ”Ã≈Õ‹ÿ≈Õ»ﬂ — Œ–Œ—“» Œ“ Ã¿——€
+        if (mass < 400f)   // Û‚ÂÎË˜ÂÌËÂ ˆÂÌÌÓÒÚË Â‰˚ ‚ Ì‡˜‡ÎÂ Ë„˚
+        {
+            massCoin = 6f;
+        } else massCoin = 3f;
+
+
+        //  Œƒ ƒÀﬂ ”Ã≈Õ‹ÿ≈Õ»ﬂ — Œ–Œ—“» Œ“ Ã¿——€
 
         //Plane playerPlane = new Plane(Vector3.up, transform.position);
 
@@ -80,7 +86,7 @@ public class AgarController : MonoBehaviour
         //    Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
         //    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * lookspeed);
         //    transform.position += transform.forward * delta * Time.fixedDeltaTime;
-   
+
         //}
 
         vecScale.Set((mass / 200 + 0.95f), 1, (mass / 200 + 0.95f));  // Ï‡Ò¯Ú‡· ÓÚ Ï‡ÒÒ˚
