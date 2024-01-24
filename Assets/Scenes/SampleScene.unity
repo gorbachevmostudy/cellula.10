@@ -193,7 +193,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Score: 0'
+  m_Text: 'Mass: 0'
 --- !u!222 &23864376
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1073,11 +1073,11 @@ Light:
   m_GameObject: {fileID: 705507993}
   m_Enabled: 1
   serializedVersion: 10
-  m_Type: 0
+  m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 2
-  m_Range: 1000
+  m_Intensity: 1
+  m_Range: 10000
   m_SpotAngle: 88
   m_InnerSpotAngle: 15
   m_CookieSize: 10
@@ -1135,7 +1135,7 @@ Transform:
   m_GameObject: {fileID: 705507993}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -9, y: 356, z: -15}
+  m_LocalPosition: {x: -9, y: 7798, z: -15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1242,7 +1242,7 @@ Transform:
   m_GameObject: {fileID: 753585122}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2, z: 0}
+  m_LocalPosition: {x: 0, y: -2.17, z: 0}
   m_LocalScale: {x: 200, y: 1, z: 200}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2445,5 +2445,5 @@ SceneRoots:
   - {fileID: 429956481}
   - {fileID: 1381289025}
   - {fileID: 526936828}
-  - {fileID: 705507995}
   - {fileID: 578367364}
+  - {fileID: 705507995}

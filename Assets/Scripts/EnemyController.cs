@@ -8,7 +8,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float cam;
     public GameObject sphere;
     private Transform player;
-    //public Transform enemyBoss;
+    private Vector3 randVector; 
     private Transform foodTrans;
     
     public float playerMass;
@@ -40,9 +40,11 @@ public class EnemyController : MonoBehaviour
         //enemyBoss = GameObject.FindGameObjectsWithTag("EnemyBoss");
         speed = 5f;
         massCoin = 3f;
-        mass = 50f;
+        mass = 40f;
         lookspeed = 3f;
         vecScale.Set(1, 1, 1);
+        randVector.Set(Random.Range(-99, 99), 1, Random.Range(-99, 99));
+        StartCoroutine("DoMessage");
 
     }
 
@@ -88,8 +90,8 @@ public class EnemyController : MonoBehaviour
 
     void FixedUpdate()
     {
-        speed = 6 * Mathf.Pow(20, -Mathf.Log(2, 0.01f)) * Mathf.Pow(mass, Mathf.Log(2, 0.01f));
-
+        //speed = 6 * Mathf.Pow(20, -Mathf.Log(2, 0.01f)) * Mathf.Pow(mass, Mathf.Log(2, 0.01f));
+        speed = 5;// Горбачев 21.01.2024 убрал зависимость скорости от массы игрока
         playerMass = GameObject.FindGameObjectWithTag("Player").GetComponent<AgarController>().mass;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         foodTrans = GameObject.FindGameObjectWithTag("Food").GetComponent<Transform>();
@@ -117,9 +119,12 @@ public class EnemyController : MonoBehaviour
             }
             else 
             {
-                Quaternion targetrotation = Quaternion.LookRotation(-player.position - transform.position);
+
+                Quaternion targetrotation = Quaternion.LookRotation(randVector - transform.position);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetrotation, Time.deltaTime * lookspeed * 0.8f);
-                transform.position = Vector3.MoveTowards(transform.position, -player.position, speed * Time.fixedDeltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, randVector, speed * Time.fixedDeltaTime);
+                mass *= 1.0001f;
+
                 //Quaternion targetrotation = Quaternion.LookRotation(closest.transform.position - transform.position);
                 //transform.rotation = Quaternion.Slerp(transform.rotation, targetrotation, Time.deltaTime * lookspeed);
                 //transform.position = Vector3.MoveTowards(transform.position, closest.transform.position, speed * Time.fixedDeltaTime);
@@ -196,11 +201,25 @@ public class EnemyController : MonoBehaviour
             //float enemyMass = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyController>().mass;
             if (mass > enemyMass)
             {
-                mass += enemyMass * 0.3f;
-                randVec.Set(Random.Range(-99.0f, 99.0f), 0, Random.Range(-99.0f, 99.0f));
+                mass += enemyMass * 0.05f;
+                randVec.Set(Random.Range(-300f, 300f), 0, Random.Range(-300f, 300f));
                 col.gameObject.transform.position = randVec;
 
             }
         }
+    }
+
+    private IEnumerator DoMessage()     // спавн красных таймер
+    {
+        for (; ; )
+        {
+            SetVector();
+            yield return new WaitForSeconds(3f);
+        }
+    }
+
+    void SetVector()   // cпавн красных энеми раз в 30 секунд. Они атакуют игрока с любого расстояния
+    {
+        randVector.Set(Random.Range(-99, 99), 1, Random.Range(-99, 99));
     }
 }

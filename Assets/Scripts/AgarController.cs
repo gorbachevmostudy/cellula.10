@@ -92,14 +92,14 @@ public class AgarController : MonoBehaviour
         vecScale.Set((mass / 200 + 0.95f), 1, (mass / 200 + 0.95f));  // масштаб от массы
         transform.localScale = vecScale;
 
-        mass -= 0.000002f * mass;      // уменьшение массы со временем
+        //mass -= 0.000002f * mass;      // уменьшение массы со временем
 
         if (IntervalTicked())   // зум камеры
         {
             UpdateCameraZoom();
         }
 
-        textScore.text = "Score: " + ((int)mass).ToString();  // счет
+        textScore.text = "Mass: " + ((int)mass).ToString();  // счет
 
         touch = GameObject.FindGameObjectWithTag("Player").GetComponent<TouchController>().touch;
         if (touch == false) 
@@ -137,7 +137,7 @@ void OnTriggerEnter(Collider col)  // поедание челов и еды
             //massEnemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyController>().mass;
             if (mass >= massEnemy)
             {
-                mass += massEnemy * 0.3f;
+                mass += massEnemy * 0.5f;
                 randVec.Set(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
                 col.gameObject.transform.position = randVec;
             }

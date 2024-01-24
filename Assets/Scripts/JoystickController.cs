@@ -39,12 +39,14 @@ public class JoystickController : MonoBehaviour
         //transform.position += transform.forward * delta * Time.fixedDeltaTime;
         if (touch == true)   // ускорение
         {
-            delta = 14 * Mathf.Pow(20, -Mathf.Log(2, 0.01f)) * Mathf.Pow(mass, Mathf.Log(2, 0.01f));
-            mass *= 0.999f;
+            //delta = 14 * Mathf.Pow(20, -Mathf.Log(2, 0.01f)) * Mathf.Pow(mass, Mathf.Log(2, 0.01f));  
+            delta = 8; // Горбачев 21.01.2024 убрал зависимость скорости от массы игрока
+            //mass *= 0.9995f;
         }
         else
         {
-            delta = 6 * Mathf.Pow(20, -Mathf.Log(2, 0.01f)) * Mathf.Pow(mass, Mathf.Log(2, 0.01f));
+            //delta = 6 * Mathf.Pow(20, -Mathf.Log(2, 0.01f)) * Mathf.Pow(mass, Mathf.Log(2, 0.01f));
+            delta = 5; // Горбачев 21.01.2024 убрал зависимость скорости от массы игрока
         }
     }
     public void speedUp()

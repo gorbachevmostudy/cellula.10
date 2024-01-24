@@ -19,9 +19,9 @@ public class FoodScript : MonoBehaviour
         
         transform.Rotate(new Vector3 (0, 90, 0) * Time.deltaTime);
         
-        camSize = GameObject.FindGameObjectWithTag("Player").GetComponent<AgarController>().camSize;  // при отдалении камеры размер модели будет увеличиваться
-        vecScale.Set((camSize / 25f), 1, (camSize / 25f));
-        transform.localScale = vecScale;
+        //camSize = GameObject.FindGameObjectWithTag("Player").GetComponent<AgarController>().camSize;  // при отдалении камеры размер модели будет увеличиваться
+        //vecScale.Set((camSize / 25f), 1, (camSize / 25f));
+        //transform.localScale = vecScale;
 
     }
 }

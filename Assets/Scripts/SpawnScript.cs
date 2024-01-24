@@ -34,9 +34,15 @@ public class SpawnScript : MonoBehaviour
             Instantiate(Food, randVector, Quaternion.identity);
         }
 
-        for (int i = 0; i < 300; i++)     // желтые
+        for (int i = 0; i < 100; i++)     // желтые основные
         {
-            randVector.Set(Random.Range(-500, 500), 0, Random.Range(-2000, 2000));
+            randVector.Set(Random.Range(-300, 300), 0, Random.Range(-300, 300));
+            Instantiate(Enemy, randVector, Quaternion.identity);
+        }
+
+        for (int i = 0; i < 5; i++)     // желтые рядом со спавном
+        {
+            randVector.Set(Random.Range(-20, 20), 0, Random.Range(-20, 20));
             Instantiate(Enemy, randVector, Quaternion.identity);
         }
 
