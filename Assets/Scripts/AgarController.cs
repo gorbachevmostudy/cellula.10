@@ -40,6 +40,12 @@ public class AgarController : MonoBehaviour
 
     private float doubleClickTime = 0.5f, lastClickTime;   // дабл клик для ускорения
 
+    public AudioSource eatFoodSound;
+    public AudioSource eatEnemySound;
+    public AudioSource eatMoneySound;
+    public AudioSource eatSpeedSound;
+    public AudioSource deathSound;
+
 
     private void Start()
     {
@@ -116,6 +122,7 @@ public class AgarController : MonoBehaviour
 
         if (mass < 0)
         {
+            deathSound.Play();
             death();
         }
 
@@ -128,6 +135,7 @@ void OnTriggerEnter(Collider col)  // поедание челов и еды
             mass += massCoin;
             randVec.Set(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
             col.gameObject.transform.position = randVec;
+            eatFoodSound.Play();
 
             //camSize += 0.002f * massCoin;   // Отдаление камеры
         }
@@ -140,6 +148,7 @@ void OnTriggerEnter(Collider col)  // поедание челов и еды
                 mass += massEnemy * 0.5f;
                 randVec.Set(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
                 col.gameObject.transform.position = randVec;
+                eatEnemySound.Play();
             }
         }
 
@@ -166,6 +175,7 @@ void OnTriggerEnter(Collider col)  // поедание челов и еды
             savePlayer();
             randVec.Set(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
             col.gameObject.transform.position = randVec;
+            eatMoneySound.Play();
             
             //camSize += 0.002f * massCoin;   // Отдаление камеры
         }
@@ -279,8 +289,10 @@ void OnTriggerEnter(Collider col)  // поедание челов и еды
         if (!deathScreen.activeSelf)
         {
             //Destroy(sphere);
+            deathSound.Play();
             deathScreen.SetActive(true);
-            Time.timeScale = 0;
+            //Time.timeScale = 0;
+            
         }
     }
 
@@ -290,6 +302,7 @@ void OnTriggerEnter(Collider col)  // поедание челов и еды
         {
             buffActive = true;
             Invoke("SetBuffFalse", buffTimer);
+            eatSpeedSound.Play();
         }
     }
 
