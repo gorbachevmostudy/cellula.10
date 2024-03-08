@@ -15,15 +15,26 @@ public class JoystickController : MonoBehaviour
     [SerializeField] private FixedJoystick joystick;
 
     [SerializeField] private float delta;
+    private float upDelta;
+    private float camSize;
     // Start is called before the first frame update
     void Start()
     {
-        delta = 6;
+
+        if (PlayerPrefs.HasKey("playerSpeed"))
+        {
+            upDelta = PlayerPrefs.GetFloat("playerSpeed");
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("playerSpeed", 1);
+            upDelta = PlayerPrefs.GetFloat("playerSpeed");
+        }
         lookspeed = 10f;
     }
     private void FixedUpdate()
     {
-
+        camSize = GameObject.FindGameObjectWithTag("Player").GetComponent<AgarController>().camSize;
         mass = GameObject.FindGameObjectWithTag("Player").GetComponent<AgarController>().mass;
         //delta = 6 * Mathf.Pow(20, -Mathf.Log(2, 0.01f)) * Mathf.Pow(mass, Mathf.Log(2, 0.01f));
         rb.velocity = new Vector3(joystick.Horizontal * delta, rb.velocity.y, joystick.Vertical * delta);
@@ -40,13 +51,13 @@ public class JoystickController : MonoBehaviour
         if (touch == true)   // ускорение
         {
             //delta = 14 * Mathf.Pow(20, -Mathf.Log(2, 0.01f)) * Mathf.Pow(mass, Mathf.Log(2, 0.01f));  
-            delta = 8; // Горбачев 21.01.2024 убрал зависимость скорости от массы игрока
+            delta = camSize * 1.4f * upDelta;//delta = 8;//camSize * 1.6f; // Горбачев 21.01.2024 убрал зависимость скорости от массы игрока
             //mass *= 0.9995f;
         }
         else
         {
             //delta = 6 * Mathf.Pow(20, -Mathf.Log(2, 0.01f)) * Mathf.Pow(mass, Mathf.Log(2, 0.01f));
-            delta = 5; // Горбачев 21.01.2024 убрал зависимость скорости от массы игрока
+            delta = camSize * 0.7f * upDelta;//camSize; // Горбачев 21.01.2024 убрал зависимость скорости от массы игрока
         }
     }
     public void speedUp()

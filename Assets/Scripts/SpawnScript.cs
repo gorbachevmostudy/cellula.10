@@ -4,46 +4,71 @@ using UnityEngine;
 
 public class SpawnScript : MonoBehaviour
 {
-
+    [SerializeField] private Material[] backs;
+    [SerializeField] private AudioClip[] music;
+    private AudioSource AudioSource;
+    private Material plane;
     public GameObject Food;
     public GameObject Enemy;
-    public GameObject EnemyBoss;
+    public GameObject Enemy_2;
+    public GameObject Enemy_3;
+    private GameObject selectedEnemy;
     public GameObject Coin;
     public GameObject Buff;
     private Vector3 randVector;
     private Transform player;
     public Camera cam;
     public float spawnRange;
+    private int typeOfEnemy;
+    private int typeOfBackground;
+    private int enemyCount;
     bool left;  // стороны спавна красных энеми. True - слева, false - справа
 
 
     private void Start()
     {
-        //StartCoroutine("DoMessage");   // старт скрипта по спавну красных
-        //left = true;
- 
-        
 
+        
     }
     void Awake()
     {
-        spawnRange = 99;
+
+        AudioSource = GameObject.Find("Audio Source").GetComponent<AudioSource>();
+
+        typeOfBackground = Random.Range(0, backs.Length);
+
+        MeshRenderer render = GameObject.FindGameObjectWithTag("Plane").GetComponent<MeshRenderer>();
+        //render.material = backs[typeOfBackground];
+
+        typeOfEnemy = Random.Range(1, 4);
+        switch (typeOfEnemy)
+        {
+            case 1: // fast
+                selectedEnemy = Enemy;
+                render.material = backs[3];
+                AudioSource.clip = music[2];
+                AudioSource.Play();
+                break;
+            case 2: // dark
+                selectedEnemy = Enemy_2;
+                render.material = backs[0];
+                AudioSource.clip = music[0];
+                AudioSource.Play();
+                break;
+            case 3: // safe
+                selectedEnemy = Enemy_3;
+                render.material = backs[2];
+                AudioSource.clip = music[1];
+                AudioSource.Play();
+                break;
+        }
+
+        spawnRange = 99f;
+        //spawnRange = GameObject.FindGameObjectWithTag("Player").GetComponent<AgarController>().spawnRange;
         for (int i = 0; i < 1500; i++)  // еда
         {
             randVector.Set(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
             Instantiate(Food, randVector, Quaternion.identity);
-        }
-
-        for (int i = 0; i < 100; i++)     // желтые основные
-        {
-            randVector.Set(Random.Range(-300, 300), 0, Random.Range(-300, 300));
-            Instantiate(Enemy, randVector, Quaternion.identity);
-        }
-
-        for (int i = 0; i < 5; i++)     // желтые рядом со спавном
-        {
-            randVector.Set(Random.Range(-20, 20), 0, Random.Range(-20, 20));
-            Instantiate(Enemy, randVector, Quaternion.identity);
         }
 
         for (int i = 0; i < 100; i++)     // монеты
@@ -58,6 +83,43 @@ public class SpawnScript : MonoBehaviour
             Instantiate(Buff, randVector, Quaternion.identity);
         }
 
+
+        ////////// СПАВН ЭНЕМИ \\\\\\\\\\\\
+        if (PlayerPrefs.HasKey("enemiesCount"))
+        {
+            enemyCount = PlayerPrefs.GetInt("enemiesCount");
+        }
+        else
+        {
+            PlayerPrefs.SetInt("enemiesCount", 30);
+            enemyCount = PlayerPrefs.GetInt("enemiesCount");
+        }
+            
+        for (int i = 0; i < enemyCount; i++)     // энеми основные
+        {
+            randVector.Set(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
+            Instantiate(selectedEnemy, randVector, Quaternion.identity);
+        }
+
+        for (int i = 0; i < 5; i++)     // энеми основные
+        {
+            randVector.Set(Random.Range(-20, 20), 0, Random.Range(-20, 20));
+            Instantiate(selectedEnemy, randVector, Quaternion.identity);
+        }
+
+        //for (int i = 0; i < 5; i++)     // энеми2 рядом со спавном
+        //{
+        //    randVector.Set(Random.Range(-20, 20), 0, Random.Range(-20, 20));
+        //    Instantiate(Enemy_2, randVector, Quaternion.identity);
+        //}
+
+        //for (int i = 0; i < 5; i++)     // энеми3 рядом со спавном
+        //{
+        //    randVector.Set(Random.Range(-20, 20), 0, Random.Range(-20, 20));
+        //    Instantiate(Enemy_3, randVector, Quaternion.identity);
+    }
+        ////////// СПАВН ЭНЕМИ \\\\\\\\\\\\
+        
     }
 
     //private IEnumerator DoMessage()     // спавн красных таймер
@@ -98,4 +160,4 @@ public class SpawnScript : MonoBehaviour
     //        spawnRange -= 20f;
     //    }
     //}
-}
+

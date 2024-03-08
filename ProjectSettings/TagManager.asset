@@ -9,6 +9,10 @@ TagManager:
   - EnemyBoss
   - Coin
   - Buff
+  - Enemy_2
+  - Enemy_3
+  - Plane
+  - Sound
   layers:
   - Default
   - TransparentFX

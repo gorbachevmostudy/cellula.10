@@ -12,6 +12,7 @@ public class CameraMove : MonoBehaviour
     [SerializeField] float rightLimit;
     [SerializeField] float bottomLimit;
     [SerializeField] float topLimit;
+    private float spawnRange;
 
     void Start()
     {
@@ -20,6 +21,12 @@ public class CameraMove : MonoBehaviour
 
     void FixedUpdate()
     {
+        spawnRange = GameObject.FindGameObjectWithTag("Player").GetComponent<AgarController>().spawnRange;
+        leftLimit = -spawnRange;
+        rightLimit = spawnRange;
+        bottomLimit = -spawnRange;
+        topLimit = spawnRange;
+
         transform.position = myObject.position + deltaPos;
         transform.position = new Vector3
             (

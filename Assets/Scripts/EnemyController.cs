@@ -10,6 +10,7 @@ public class EnemyController : MonoBehaviour
     private Transform player;
     private Vector3 randVector; 
     private Transform foodTrans;
+    private float camSize;
     
     public float playerMass;
     public float enemyBossMass;
@@ -43,7 +44,7 @@ public class EnemyController : MonoBehaviour
         mass = 40f;
         lookspeed = 3f;
         vecScale.Set(1, 1, 1);
-        randVector.Set(Random.Range(-99, 99), 1, Random.Range(-99, 99));
+        randVector.Set(Random.Range(-2000, 2000), 1, Random.Range(-2000, 2000));
         StartCoroutine("DoMessage");
 
     }
@@ -91,10 +92,11 @@ public class EnemyController : MonoBehaviour
     void FixedUpdate()
     {
         //speed = 6 * Mathf.Pow(20, -Mathf.Log(2, 0.01f)) * Mathf.Pow(mass, Mathf.Log(2, 0.01f));
-        speed = 5;// Горбачев 21.01.2024 убрал зависимость скорости от массы игрока
+        camSize = GameObject.FindGameObjectWithTag("Player").GetComponent<AgarController>().camSize;
+        speed = camSize*0.8f;// Горбачев 21.01.2024 убрал зависимость скорости от массы игрока
         playerMass = GameObject.FindGameObjectWithTag("Player").GetComponent<AgarController>().mass;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        foodTrans = GameObject.FindGameObjectWithTag("Food").GetComponent<Transform>();
+        //foodTrans = GameObject.FindGameObjectWithTag("Food").GetComponent<Transform>();
 
         cam = GameObject.FindGameObjectWithTag("Player").GetComponent<AgarController>().camSize;
         float distToPlayer = Vector3.Distance(transform.position, player.position);
@@ -109,7 +111,7 @@ public class EnemyController : MonoBehaviour
         //    enemyBossMass = closestEnemyBoss.GetComponent<EnemyBossController>().mass;
         //}
         //catch { }
-        if (distToPlayer < cam * 8f)
+        if (distToPlayer < cam * 4f)
         {
             if (mass > playerMass)
             {
@@ -123,7 +125,7 @@ public class EnemyController : MonoBehaviour
                 Quaternion targetrotation = Quaternion.LookRotation(randVector - transform.position);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetrotation, Time.deltaTime * lookspeed * 0.8f);
                 transform.position = Vector3.MoveTowards(transform.position, randVector, speed * Time.fixedDeltaTime);
-                mass *= 1.0001f;
+                mass *= 1.00020f;
 
                 //Quaternion targetrotation = Quaternion.LookRotation(closest.transform.position - transform.position);
                 //transform.rotation = Quaternion.Slerp(transform.rotation, targetrotation, Time.deltaTime * lookspeed);
@@ -135,16 +137,16 @@ public class EnemyController : MonoBehaviour
             if (mass < playerMass * 0.7f) 
             {
                 
-                mass *= 1.0005f;
+                mass *= 1.0006f;
 
             } else if ((mass >= playerMass * 0.7f) && (mass < playerMass * 1.2f))
             {
                 
-                mass *= 1.00035f;
+                mass *= 1.00040f;
             
             } else if (mass >= playerMass * 1.2f)
             {
-                mass *= 1.0002f;
+                mass *= 1.0003f;
             }
 
         }

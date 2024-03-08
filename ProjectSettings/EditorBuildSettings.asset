@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Settings.unity
     guid: 42348a4ffaa001d4b9829090ce7fa243
+  - enabled: 1
+    path: Assets/Scenes/Coffee.unity
+    guid: 6988e0657ab0da44eb4319862bcf2c86
   m_configObjects: {}
