@@ -7,6 +7,7 @@ using UnityEngine.Events;
 
 public class AgarController : MonoBehaviour
 {
+    [SerializeField] GameObject[] Tutorials;
 
     //public float delta;
     [SerializeField] Text coins;
@@ -43,8 +44,8 @@ public class AgarController : MonoBehaviour
 
     private float doubleClickTime = 0.5f, lastClickTime;   // дабл клик для ускорения
 
-    private int sec = 0;
-    private int min = 0;
+    public int sec = 0;
+    public int min = 0;
     private Text TimerText;
     [SerializeField] private int timedelta = 0;
 
@@ -69,12 +70,12 @@ public class AgarController : MonoBehaviour
         {
             coinsCount = 0;
         }
-        coins.text = "DNA: " + coinsCount.ToString();
+        coins.text = "ДНК: " + coinsCount.ToString();
         //delta = 6;
         mass = 50f;
         //lookspeed = 10f;
         vecScale.Set(1, 1, 1);
-        camSize = 5f;
+        camSize = 7f;
         
         buffActive = false;
         buffTimer = 10f;
@@ -118,7 +119,7 @@ public class AgarController : MonoBehaviour
             UpdateCameraZoom();
         }
 
-        textScore.text = "Mass: " + ((int)mass).ToString();  // счет
+        textScore.text = "Масса: " + ((int)mass).ToString();  // счет
 
         touch = GameObject.FindGameObjectWithTag("Player").GetComponent<TouchController>().touch;
         if (touch == false) 
@@ -167,6 +168,10 @@ void OnTriggerEnter(Collider col)  // поедание челов и еды
                 col.gameObject.transform.position = randVec;
                 eatEnemySound.Play();
             }
+            if (!PlayerPrefs.HasKey("FirstTime" + col.gameObject.tag.Substring(0, 5)))
+            {
+                OpenTutorial(col.gameObject.tag.Substring(0, 5));
+            }
         }
 
         if (col.gameObject.tag == "Enemy_2")
@@ -179,6 +184,10 @@ void OnTriggerEnter(Collider col)  // поедание челов и еды
                 randVec.Set(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
                 col.gameObject.transform.position = randVec;
                 eatEnemySound.Play();
+            }
+            if (!PlayerPrefs.HasKey("FirstTime" + col.gameObject.tag.Substring(0, 5)))
+            {
+                OpenTutorial(col.gameObject.tag.Substring(0, 5));
             }
         }
 
@@ -193,17 +202,24 @@ void OnTriggerEnter(Collider col)  // поедание челов и еды
                 col.gameObject.transform.position = randVec;
                 eatEnemySound.Play();
             }
+            if (!PlayerPrefs.HasKey("FirstTime" + col.gameObject.tag.Substring(0, 5)))
+            {
+                OpenTutorial(col.gameObject.tag.Substring(0, 5));
+            }
         }
 
         if (col.gameObject.tag == "Coin")
         {
             coinsCount += 1;
-            coins.text = "DNA: " + coinsCount.ToString();
+            coins.text = "ДНК: " + coinsCount.ToString();
             savePlayer();
             randVec.Set(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
             col.gameObject.transform.position = randVec;
             eatMoneySound.Play();
-            
+            if (!PlayerPrefs.HasKey("FirstTime" + col.gameObject.tag))
+            {
+                OpenTutorial(col.gameObject.tag);
+            }
             //camSize += 0.002f * massCoin;   // Отдаление камеры
         }
 
@@ -213,7 +229,10 @@ void OnTriggerEnter(Collider col)  // поедание челов и еды
             UseBuff();
             randVec.Set(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
             col.gameObject.transform.position = randVec;
-
+            if (!PlayerPrefs.HasKey("FirstTime" + col.gameObject.tag))
+            {
+                OpenTutorial(col.gameObject.tag);
+            }
         }
     }
     private void savePlayer()
@@ -431,9 +450,28 @@ void OnTriggerEnter(Collider col)  // поедание челов и еды
 
     private void OpenTutorial(string coll)
     {
-        GameObject panel = GameObject.Find(coll + "Tutorial");
-        Color color = panel.GetComponent<Image>().color;
-        color.a = 1;
+        
+        foreach(GameObject go in Tutorials)
+        {
+            if (go.name == coll+"Tutorial")
+            {
+                go.SetActive(true);
+                Time.timeScale = 0;
+                PlayerPrefs.SetInt("FirstTime" + coll, 1);
+            }
+        }
+
+    }
+
+    public void CloseTutorial()
+    {
+        foreach (GameObject go in Tutorials)
+        {
+          
+            go.SetActive(false);
+            Time.timeScale = 1;
+            
+        }
     }
     //public delegate void Action(bool zoom);  // Горбачев 09_02_2024 триггер для скинченджера
     public static UnityEvent<bool> camGrown = new UnityEvent<bool>();

@@ -9,11 +9,21 @@ public class TouchController : MonoBehaviour
     public float delta;
     private float lookspeed;
     public bool touch;
+    private float camSize;
+    private float upDelta;
 
 
     void Start()
     {
-        delta = 6;
+        if (PlayerPrefs.HasKey("playerSpeed"))
+        {
+            upDelta = PlayerPrefs.GetFloat("playerSpeed");
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("playerSpeed", 1);
+            upDelta = PlayerPrefs.GetFloat("playerSpeed");
+        }
         lookspeed = 10f;
     }
 
@@ -21,6 +31,7 @@ public class TouchController : MonoBehaviour
     void FixedUpdate()
     {
         //  Œƒ ƒÀﬂ ”Ã≈Õ‹ÿ≈Õ»ﬂ — Œ–Œ—“» Œ“ Ã¿——€
+        camSize = GameObject.FindGameObjectWithTag("Player").GetComponent<AgarController>().camSize;
         mass = GameObject.FindGameObjectWithTag("Player").GetComponent<AgarController>().mass;
         Plane playerPlane = new Plane(Vector3.up, transform.position);
 
@@ -37,12 +48,11 @@ public class TouchController : MonoBehaviour
         
         if (touch == true)   // ÛÒÍÓÂÌËÂ
         {
-            delta = 14 * Mathf.Pow(20, -Mathf.Log(2, 0.01f)) * Mathf.Pow(mass, Mathf.Log(2, 0.01f));
-            mass *= 0.999f;
+            delta = camSize * 1.4f * upDelta;
         }
         else
         {
-            delta = 6 * Mathf.Pow(20, -Mathf.Log(2, 0.01f)) * Mathf.Pow(mass, Mathf.Log(2, 0.01f));
+            delta = camSize * 0.7f * upDelta;
         }
     }
 

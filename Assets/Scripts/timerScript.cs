@@ -13,11 +13,11 @@ public class timerScript : MonoBehaviour
         {
             int min = PlayerPrefs.GetInt("minutes");
             int sec = PlayerPrefs.GetInt("seconds");
-            TimerText.text = "best alive time: " + min.ToString("D2") + ":" + sec.ToString("D2");
+            TimerText.text = "лучшее время: " + min.ToString("D2") + ":" + sec.ToString("D2");
         }
         else
         {
-            TimerText.text = "best alive time: 00:00";
+            TimerText.text = "лучшее время: 00:00";
         }
     }
 

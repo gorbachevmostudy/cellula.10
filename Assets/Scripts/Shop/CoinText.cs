@@ -20,6 +20,6 @@ public class CoinText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CoinTexts.text = "your dna: " + Coin.ToString();
+        CoinTexts.text = "עגמט ִֽÊ: " + Coin.ToString();
     }
 }

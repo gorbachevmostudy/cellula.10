@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] private float cam;
@@ -44,7 +45,7 @@ public class EnemyController : MonoBehaviour
         mass = 40f;
         lookspeed = 3f;
         vecScale.Set(1, 1, 1);
-        randVector.Set(Random.Range(-2000, 2000), 1, Random.Range(-2000, 2000));
+        randVector.Set(Random.Range(-99, 99), 0, Random.Range(-99, 99));
         StartCoroutine("DoMessage");
 
     }
@@ -125,7 +126,7 @@ public class EnemyController : MonoBehaviour
                 Quaternion targetrotation = Quaternion.LookRotation(randVector - transform.position);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetrotation, Time.deltaTime * lookspeed * 0.8f);
                 transform.position = Vector3.MoveTowards(transform.position, randVector, speed * Time.fixedDeltaTime);
-                mass *= 1.00020f;
+                mass *= 1.00005f;
 
                 //Quaternion targetrotation = Quaternion.LookRotation(closest.transform.position - transform.position);
                 //transform.rotation = Quaternion.Slerp(transform.rotation, targetrotation, Time.deltaTime * lookspeed);
@@ -161,7 +162,7 @@ public class EnemyController : MonoBehaviour
         if (col.gameObject.tag == "Food")
         {
             mass += massCoin;
-            randVec.Set(Random.Range(-99.0f, 99.0f), 0, Random.Range(-99.0f, 99.0f));
+            randVec.Set(Random.Range(-99.0f * cam, 99.0f * cam), 0, Random.Range(-99.0f * cam, 99.0f * cam));
             col.gameObject.transform.position = randVec;
 
         }
@@ -174,9 +175,8 @@ public class EnemyController : MonoBehaviour
             {
                 if (!deathScreen.activeSelf)
                 {
-                    //Destroy(col.gameObject);
                     deathScreen.SetActive(true);
-                 
+                    int gamerMass = (int)playerMass;
                     Time.timeScale = 0;
                     //Debug.Break();
                 }
@@ -204,7 +204,7 @@ public class EnemyController : MonoBehaviour
             if (mass > enemyMass)
             {
                 mass += enemyMass * 0.05f;
-                randVec.Set(Random.Range(-300f, 300f), 0, Random.Range(-300f, 300f));
+                randVec.Set(Random.Range(-99f * cam, 99f * cam), 0, Random.Range(-99f * cam, 99f * cam));
                 col.gameObject.transform.position = randVec;
 
             }
@@ -222,6 +222,6 @@ public class EnemyController : MonoBehaviour
 
     void SetVector()   // cпавн красных энеми раз в 30 секунд. Они атакуют игрока с любого расстояния
     {
-        randVector.Set(Random.Range(-99, 99), 1, Random.Range(-99, 99));
+        randVector.Set(Random.Range(-99 * (cam + 1), 99 * (cam + 1)), 0, Random.Range(-99 * (cam + 1), 99 * (cam + 1)));
     }
 }

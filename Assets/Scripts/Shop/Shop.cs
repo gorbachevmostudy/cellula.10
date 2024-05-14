@@ -22,7 +22,7 @@ public class Shop : MonoBehaviour
         {
             coins = 0;
         }
-        coinsBar.text = "your dna: " + coins.ToString();
+        coinsBar.text = "твои ДНК: " + coins.ToString();
 
         if (PlayerPrefs.HasKey("playerSpeed"))
         {
@@ -33,7 +33,7 @@ public class Shop : MonoBehaviour
             PlayerPrefs.SetFloat("playerSpeed", 1);
             speed = PlayerPrefs.GetFloat("playerSpeed");
         }
-        speedBar.text = "speed: " + (speed*100f).ToString("###") + "%";
+        speedBar.text = "скорость: " + (speed*100f).ToString("###") + "%";
 
         if (PlayerPrefs.HasKey("enemiesCount"))
         {
@@ -44,7 +44,7 @@ public class Shop : MonoBehaviour
             PlayerPrefs.SetInt("enemiesCount", 30);
             enemies = PlayerPrefs.GetInt("enemiesCount");
         }
-        enemiesBar.text = "enemies: " + enemies.ToString();
+        enemiesBar.text = "враги: " + enemies.ToString();
 
         if (PlayerPrefs.HasKey("speedPrice"))
         {
@@ -55,7 +55,7 @@ public class Shop : MonoBehaviour
             PlayerPrefs.SetInt("speedPrice", 15);
             speedPrice = PlayerPrefs.GetInt("speedPrice");
         }
-        speedPriceT.text = speedPrice.ToString() + " DNA";
+        speedPriceT.text = speedPrice.ToString() + " ДНК";
 
         if (PlayerPrefs.HasKey("enemiesPrice"))
         {
@@ -66,7 +66,7 @@ public class Shop : MonoBehaviour
             PlayerPrefs.SetInt("enemiesPrice", 50);
             enemiesPrice = PlayerPrefs.GetInt("enemiesPrice");
         }
-        enemiesPriceT.text = enemiesPrice.ToString() + " DNA";
+        enemiesPriceT.text = enemiesPrice.ToString() + " ДНК";
     }
 
     
@@ -85,8 +85,8 @@ public class Shop : MonoBehaviour
             coins = PlayerPrefs.GetInt("coinsFinal");
             CoinText.Coin -= actualPrice;
             //coinsBar.text = "your dna: " + coins.ToString();
-            speedBar.text = "speed: " + (speed * 100).ToString("###") + "%";
-            speedPriceT.text = PlayerPrefs.GetInt("speedPrice").ToString() + " DNA";
+            speedBar.text = "скорость: " + (speed * 100).ToString("###") + "%";
+            speedPriceT.text = PlayerPrefs.GetInt("speedPrice").ToString() + " ДНК";
 
         }
     }
@@ -106,8 +106,8 @@ public class Shop : MonoBehaviour
             enemies = PlayerPrefs.GetInt("enemiesCount");
             CoinText.Coin -= actualPrice;
             //coinsBar.text = "your dna: " + coins.ToString();
-            enemiesBar.text = "enemies: " + enemies.ToString();
-            enemiesPriceT.text = PlayerPrefs.GetInt("enemiesPrice").ToString() + " DNA";
+            enemiesBar.text = "враги: " + enemies.ToString();
+            enemiesPriceT.text = PlayerPrefs.GetInt("enemiesPrice").ToString() + " ДНК";
 
         }
     }
